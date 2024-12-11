@@ -11,7 +11,7 @@ services:
       - odoo18-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
-      - ./muk_web_theme:/mnt/extra-addons
+      - ./external-addons:/mnt/extra-addons
     environment:
       - PASSWORD_FILE=/run/secrets/postgresql_password
     secrets:
