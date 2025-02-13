@@ -2,6 +2,7 @@ services:
   web:
     build:
       context: .
+      dockerfile: Dockerfile
     image: odoo:18.0
     depends_on:
       - postgre15
@@ -11,7 +12,6 @@ services:
       - odoo18-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./addons:/mnt/extra-addons
-      - ./external-addons:/mnt/extra-addons
     environment:
       - PASSWORD_FILE=/run/secrets/postgresql_password
     secrets:
