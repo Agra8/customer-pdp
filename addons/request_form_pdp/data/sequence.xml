@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="seq_pdp_form" model="ir.sequence">
+            <field name="name">PDP Form Sequence</field>
+            <field name="code">pdp.form</field>
+            <field name="prefix">REQ/TM/%(year)s/%(month)s/</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="use_date_range">True</field>
+        </record>
+    </data>
+</odoo>

@@ -27,6 +27,8 @@ services:
       - odoo18-db-data:/var/lib/postgresql/data/pgdata
     secrets:
       - postgresql_password
+    ports:
+      - 5430:5432
 volumes:
   odoo18-web-data:
   odoo18-db-data:
