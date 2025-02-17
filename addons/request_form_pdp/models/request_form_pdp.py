@@ -12,13 +12,8 @@ class RequestPDPForm(models.Model):
     _name = 'pdp.request.form'
     _description = ' Request PDP Form'
 
-    name = fields.Char(string='Form Name',readonly=True)
+    name = fields.Char("Form Name", default=lambda self: ('New'), copy=False, readonly=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
-    # activities_form = fields.Selection([
-    #     ('prospect', 'Prospect Process'),
-    #     ('onboarding', 'Onboarding Process'),
-    #     ('followup', 'Follow-up Process')
-    # ], string='Activities Form', required=True, default='prospect')
     activities_form = fields.Many2one(
         'pdp.activities.form', 
         string='Activity Form', 
@@ -40,31 +35,12 @@ class RequestPDPForm(models.Model):
     link_form = fields.Char(string='Link Form', compute='_generate_link', store=True)
     token = fields.Char(string='Token', readonly=True)
 
-    @api.model
-    def create(self, vals):
-        record = super(RequestPDPForm, self).create(vals)
-        record._update_sequence()
-        return record
-
-    def _update_sequence(self):
-        for record in self:
-            year = datetime.today().strftime('%y')
-            month = datetime.today().strftime('%m')
-
-            sequence = self.env['ir.sequence'].search([('code', '=', 'pdp.request.form')], limit=1)
-            if sequence:
-                sequence.write({'prefix': f'REQ/TM/{year}/{month}/'})
-                record.name = sequence.next_by_code('pdp.request.form')
-            else:
-                
-                self.env['ir.sequence'].create({
-                    'name': 'PDP Request Form Sequence',
-                    'code': 'pdp.request.form',
-                    'prefix': f'REQ/TM/{year}/{month}/',
-                    'padding': 4,
-                })
-                record.name = f'REQ/TM/{year}/{month}/{1:04d}'  # Initialize with 0001
-
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', 'New') == 'New':
+                vals['name'] = self.env['ir.sequence'].next_by_code('pdp.request.form') or 'New'
+        return super().create(vals_list)
     def _generate_token(self):
         # Generatee a unique wtoken for the form
         for record in self:
