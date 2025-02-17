@@ -6,7 +6,6 @@ import hashlib
 import secrets
 from io import BytesIO
 from datetime import datetime
-import pyperclip
 
 
 class RequestPDPForm(models.Model):
@@ -15,11 +14,16 @@ class RequestPDPForm(models.Model):
 
     name = fields.Char(string='Form Name',readonly=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
-    activities_form = fields.Selection([
-        ('prospect', 'Prospect Process'),
-        ('onboarding', 'Onboarding Process'),
-        ('followup', 'Follow-up Process')
-    ], string='Activities Form', required=True, default='prospect')
+    # activities_form = fields.Selection([
+    #     ('prospect', 'Prospect Process'),
+    #     ('onboarding', 'Onboarding Process'),
+    #     ('followup', 'Follow-up Process')
+    # ], string='Activities Form', required=True, default='prospect')
+    activities_form = fields.Many2one(
+        'pdp.activities.form', 
+        string='Activity Form', 
+        domain=[('name', '!=', False)]
+    )
     valid_on = fields.Date(string='Valid On')
     expired_on = fields.Date(string='Expired On')
     limit_usage = fields.Integer(string='Limit Usage', default=1)
@@ -44,7 +48,7 @@ class RequestPDPForm(models.Model):
 
     def _update_sequence(self):
         for record in self:
-            year = datetime.today().strftime('%y')  
+            year = datetime.today().strftime('%y')
             month = datetime.today().strftime('%m')
 
             sequence = self.env['ir.sequence'].search([('code', '=', 'pdp.request.form')], limit=1)
@@ -52,7 +56,14 @@ class RequestPDPForm(models.Model):
                 sequence.write({'prefix': f'REQ/TM/{year}/{month}/'})
                 record.name = sequence.next_by_code('pdp.request.form')
             else:
-                record.name = f'REQ/TM/{year}/{month}/0001'
+                
+                self.env['ir.sequence'].create({
+                    'name': 'PDP Request Form Sequence',
+                    'code': 'pdp.request.form',
+                    'prefix': f'REQ/TM/{year}/{month}/',
+                    'padding': 4,
+                })
+                record.name = f'REQ/TM/{year}/{month}/{1:04d}'  # Initialize with 0001
 
     def _generate_token(self):
         # Generatee a unique wtoken for the form
@@ -77,13 +88,9 @@ class RequestPDPForm(models.Model):
                 record.link_form = f"{record._get_form_url()}?token={record.token}"
 
     def _get_form_url(self):
-        # Retrieve the base URL and construct the form UR
-        # base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        # return f"https://anichin.co.id/{self.id}"
-
         # def _get_form_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return f"http://linkedin.com/in/ahmaddaudjuned/{self.id}"
+        return f"{base_url}/request_form/{self.id}"
 
     def action_generate(self):
         self.write({'status': 'on_customer'})
@@ -93,7 +100,7 @@ class RequestPDPForm(models.Model):
     def action_confirm(self):
         self.write({'status': 'completed'})
     
-    # Tambahkan method untuk berbagi melalui WhatsApp
+    #method untuk berbagi melalui WhatsApp
     def action_share_link(self):
         for record in self:
             if record.link_form:
@@ -103,16 +110,6 @@ class RequestPDPForm(models.Model):
                     'url': wa_url,
                     'target': 'new',
                 }
-
-    # Tambahkan method untuk menyalin link
-    # def action_copy_link(self):
-    #     for record in self:
-    #         if record.link_form:
-    #             pyperclip.copy(record.link_form)
-    def action_copy_link(self):
-        for record in self:
-            if record.link_form:
-                    pyperclip.copy(record.link_form)
 
     def action_generate_link(self):
         self._generate_token()
