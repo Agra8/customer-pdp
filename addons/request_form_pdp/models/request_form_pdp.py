@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api,exceptions 
 import qrcode
 import base64
 import hashlib
@@ -14,13 +14,13 @@ class RequestPDPForm(models.Model):
 
     name = fields.Char("Form Name", default=lambda self: ('New'), copy=False, readonly=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
-    activities_form = fields.Many2one(
-        'pdp.activities.form', 
+    activity_form_id = fields.Many2one(
+        'pdp.activity.form', 
         string='Activity Form', 
         domain=[('name', '!=', False)]
     )
-    valid_on = fields.Date(string='Valid On')
-    expired_on = fields.Date(string='Expired On')
+    valid_date = fields.Date(string='Valid Date')
+    expired_date = fields.Date(string='Expired Date')
     limit_usage = fields.Integer(string='Limit Usage', default=1)
     email_to = fields.Char(string='Email To')
     status = fields.Selection([
@@ -34,6 +34,13 @@ class RequestPDPForm(models.Model):
     qr_code = fields.Binary(string='Unique QR Code', compute='_generate_qr_code', store=True)
     link_form = fields.Char(string='Link Form', compute='_generate_link', store=True)
     token = fields.Char(string='Token', readonly=True)
+
+    # make sure valid date and expired_date
+    @api.constrains('valid_date', 'expired_date')
+    def _check_dates(self):
+        for record in self:
+            if record.valid_date and record.expired_date and record.valid_date > record.expired_date:
+                raise exceptions.ValidationError("The valid date cannot be after the expired date.")
 
     @api.model_create_multi
     def create(self, vals_list):

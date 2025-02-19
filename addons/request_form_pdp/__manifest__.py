@@ -25,7 +25,7 @@ Long description of module's purpose
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'views/templates.xml',
-        'views/activites_form_pdp.xml',
+        'views/activity_form_pdp.xml',
         'views/pdp_master_fields.xml',
         'views/pdp_form.xml',
     ],

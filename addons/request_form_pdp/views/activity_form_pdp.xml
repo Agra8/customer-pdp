@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="view_activities_form_list" model="ir.ui.view">
-        <field name="name">pdp.activities.form.list</field>
-        <field name="model">pdp.activities.form</field>
+    <record id="view_activity_form_list" model="ir.ui.view">
+        <field name="name">pdp.activity.form.list</field>
+        <field name="model">pdp.activity.form</field>
         <field name="arch" type="xml">
-            <list string="Activities Forms">
+            <list string="Activity Forms">
                 <field name="name"/>
                 <field name="company_id"/>
                 <field name="create_uid" readonly="1"></field>
@@ -15,11 +15,11 @@
         </field>
     </record>
 
-    <record id="view_activities_form_form" model="ir.ui.view">
-        <field name="name">pdp.activities.form.form</field>
-        <field name="model">pdp.activities.form</field>
+    <record id="view_activity_form_form" model="ir.ui.view">
+        <field name="name">pdp.activity.form.form</field>
+        <field name="model">pdp.activity.form</field>
         <field name="arch" type="xml">
-            <form string="Activities Form">
+            <form string="Activity Form">
                 <header>
                         <button name="action_generate" type="object" class="btn-success"
                               string="Set On Customer" modifiers="{'invisible': [('status', '=', 'on_customer')]}"/>
@@ -31,16 +31,20 @@
                     </header>
                 <sheet>
                     <group>
-                        <field name="name"/>
-                        <field name="company_id"/>
+                        <field name="name" required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <field name="company_id" required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <field name="consent_agreement_id" required="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
                     </group>
                
                     <notebook>
-                        <page string="Activities Form Details">
-                            <field name="activities_form_line_ids">
+                        <page string="activity Form Details">
+                            <field name="activity_form_line">
                                 <list editable="bottom">
-                                    <field name="field_id" options="{'no_create': True, 'no_open': True}" domain='[("id", "not in", used_field_ids)]' required ="1"/>
+                                    <field name="field_id" options="{'no_create': True, 'no_open': True}" domain='[("id", "not in", used_field_ids)]' required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
                                     <field name="field_type" readonly="1"/>
+                                    <field name="required" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                                    <field name="min" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                                    <field name="max" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
                                 </list>
                             </field>
                         </page>
@@ -64,9 +68,9 @@
         </field>
     </record>
 
-    <record id="action_pdp_activities_form" model="ir.actions.act_window">
-        <field name="name"> PDP Activities Form</field>
-        <field name="res_model">pdp.activities.form</field>
+    <record id="action_pdp_activity_form" model="ir.actions.act_window">
+        <field name="name"> PDP Activity Form</field>
+        <field name="res_model">pdp.activity.form</field>
         <field name="view_mode">list,form</field>
     </record>
 

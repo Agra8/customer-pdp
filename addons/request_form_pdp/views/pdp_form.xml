@@ -7,10 +7,10 @@
             <list string="PDP Forms">
                 <field name="name"/>
                 <field name="company_id"/>
-                <field name="activities_form"/>
+                <field name="activity_form_id"/>
                 <field name="status"/>
-                <field name="valid_on"/>
-                <field name="expired_on"/>
+                <field name="valid_date"/>
+                <field name="expired_date"/>
             </list>
         </field>
     </record>
@@ -33,13 +33,13 @@
                     </header>
                 <sheet>
                     <group>
-                            <field name="name"/>
-                            <field name="company_id"/>
-                            <field name="activities_form"/>
-                            <field name="valid_on"/>
-                            <field name="expired_on"/>
-                            <field name="limit_usage"/>
-                            <field name="email_to"/>
+                            <field name="name" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="company_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="activity_form_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="valid_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="expired_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="limit_usage" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="email_to" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
                     </group>
                     <group>
                         <div class="o_row">
@@ -53,9 +53,6 @@
                         <field name="token" invisible="0"/>
                         <field name="qr_code" widget="image"/>
                     </group>
-
-
-
                
                     <notebook>
                       <page string="Audit Trail">
@@ -85,11 +82,8 @@
     <menuitem id="menu_pdp_root" name="Request Form PDP" sequence="10"/>
 
     <menuitem id="menu_pdp_form" name="Request Form" parent="menu_pdp_root" action="action_pdp_form"/>
-    <menuitem id="menu_pdp_activities_form" name="PDP Activities Form" parent="menu_pdp_root" action="action_pdp_activities_form"/>
+    <menuitem id="menu_pdp_activity_form" name="PDP Activity Form" parent="menu_pdp_root" action="action_pdp_activity_form"/>
 
     <menuitem id="menu_pdp_master_fields" name="PDP Master Fields" parent="menu_pdp_root" action="action_pdp_master_fields"/>
-
-  
-
 
 </odoo>
