@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import models, fields, api
+from odoo import models, fields, api,exceptions 
 import qrcode
 import base64
 import hashlib
@@ -13,15 +13,15 @@ class RequestPDPForm(models.Model):
     _name = 'pdp.request.form'
     _description = ' Request PDP Form'
 
-    name = fields.Char(string='Form Name',readonly=True)
+    name = fields.Char("Form Name", default=lambda self: ('New'), copy=False, readonly=True, tracking=True)
     company_id = fields.Many2one('res.company', string='Company', required=True)
-    activities_form = fields.Selection([
-        ('prospect', 'Prospect Process'),
-        ('onboarding', 'Onboarding Process'),
-        ('followup', 'Follow-up Process')
-    ], string='Activities Form', required=True, default='prospect')
-    valid_on = fields.Date(string='Valid On')
-    expired_on = fields.Date(string='Expired On')
+    activity_form_id = fields.Many2one(
+        'pdp.activity.form', 
+        string='Activity Form', 
+        domain=[('name', '!=', False)]
+    )
+    valid_date = fields.Date(string='Valid Date')
+    expired_date = fields.Date(string='Expired Date')
     limit_usage = fields.Integer(string='Limit Usage', default=1)
     email_to = fields.Char(string='Email To')
     status = fields.Selection([
@@ -36,24 +36,19 @@ class RequestPDPForm(models.Model):
     link_form = fields.Char(string='Link Form', compute='_generate_link', store=True)
     token = fields.Char(string='Token', readonly=True)
 
-    @api.model
-    def create(self, vals):
-        record = super(RequestPDPForm, self).create(vals)
-        record._update_sequence()
-        return record
-
-    def _update_sequence(self):
+    # make sure valid date and expired_date
+    @api.constrains('valid_date', 'expired_date')
+    def _check_dates(self):
         for record in self:
-            year = datetime.today().strftime('%y')  
-            month = datetime.today().strftime('%m')
+            if record.valid_date and record.expired_date and record.valid_date > record.expired_date:
+                raise exceptions.ValidationError("The valid date cannot be after the expired date.")
 
-            sequence = self.env['ir.sequence'].search([('code', '=', 'pdp.request.form')], limit=1)
-            if sequence:
-                sequence.write({'prefix': f'REQ/TM/{year}/{month}/'})
-                record.name = sequence.next_by_code('pdp.request.form')
-            else:
-                record.name = f'REQ/TM/{year}/{month}/0001'
-
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', 'New') == 'New':
+                vals['name'] = self.env['ir.sequence'].next_by_code('pdp.request.form') or 'New'
+        return super().create(vals_list)
     def _generate_token(self):
         # Generatee a unique wtoken for the form
         for record in self:
@@ -77,13 +72,9 @@ class RequestPDPForm(models.Model):
                 record.link_form = f"{record._get_form_url()}?token={record.token}"
 
     def _get_form_url(self):
-        # Retrieve the base URL and construct the form UR
-        # base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        # return f"https://anichin.co.id/{self.id}"
-
         # def _get_form_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return f"http://linkedin.com/in/ahmaddaudjuned/{self.id}"
+        return f"{base_url}/request_form/{self.id}"
 
     def action_generate(self):
         self.write({'status': 'on_customer'})
@@ -93,7 +84,7 @@ class RequestPDPForm(models.Model):
     def action_confirm(self):
         self.write({'status': 'completed'})
     
-    # Tambahkan method untuk berbagi melalui WhatsApp
+    #method untuk berbagi melalui WhatsApp
     def action_share_link(self):
         for record in self:
             if record.link_form:

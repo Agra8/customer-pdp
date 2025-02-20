@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="res_branch_list_view" model="ir.ui.view">
+		    <field name="name">res.branch.list</field>
+		    <field name="model">res.branch</field>
+		    <field name="arch" type="xml">
+		        <list string="Branches">
+                    <field name="company_id"/>
+                    <field name="code"/>
+                    <field name="name"/>
+		        </list>
+		     </field>
+		</record>
+
+        <record id="view_res_branch_filter" model="ir.ui.view">
+            <field name="name">res.branch.filter</field>
+            <field name="model">res.branch</field>
+            <field name="arch" type="xml">
+                <search string="Search Branch">
+                    <field name="code" string="Code Branch"/>
+                    <field name="name" string="Branch"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="res_branch_form_view" model="ir.ui.view">
+		     <field name="name">res.branch.form</field>
+		     <field name="model">res.branch</field>
+		     <field name="arch" type="xml">
+		     	<form string="Branches">
+		     		<sheet>
+                    <group>
+                        <group>
+                            <field name="create_date" invisible="1"/>
+                            <field name="code"/>
+                            <field name="name" required="1"/>
+                            <field name="company_id" required="1" options="{'no_open':True,'no_create':True}"/>
+                            <field name="profit_centre" required="1"/>
+                        </group>
+                        <group>
+                            <field name="street" placeholder="Street..."/>
+                            <label for="rt" string="Rt/Rw"/>
+                            <div>
+                                <field name="rt" placeholder="RT" style="width: 25%%"/>
+                                <field name="rw" placeholder="RW" style="width: 25%%"/>
+                            </div>
+                                <field name="state_id" class="oe_no_button" placeholder="Province" style="width: 50%%" options='{"no_open": True}'/>
+                                <field name="kabupaten_id" placeholder="City" style="width: 50%%" options="{'no_create': True,'no_open': True}" domain="[('state_id','=',state_id)]"/>
+                            <label for="kecamatan_id" string="Kecamatan"/>
+                            <div>            
+                                <field name="kecamatan_id" placeholder="Kecamatan" style="width: 50%%" options="{'no_create': True,'no_open': True}" domain="[('city_id','=',kabupaten_id)]"/>
+                                <field name="kecamatan" placeholder="Kecamatan" style="width: 50%%" />
+                            </div>
+                            <label for="kelurahan_id" string="Kelurahan"/>
+                            <div>                   
+                                <field name="kelurahan_id" placeholder="Kelurahan" style="width: 50%%" options="{'no_create': True,'no_open': True}" domain="[('kecamatan_id','=',kecamatan_id)]"/>                              
+                                <field name="kelurahan" class="oe_no_button" placeholder="Kelurahan" style="width: 50%%"/>
+                            </div>
+                            <field name="kode_pos"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                            <field name="fax"/>
+                            <field name="email"/>
+                            <field name="pimpinan_id"/>
+                        </group>
+                    </group>
+	                </sheet>              
+		        </form>
+		   	 </field>																														
+		</record> 
+
+        <record model="ir.actions.act_window" id="res_branch_action">
+		    <field name="name">Branches</field>
+		    <field name="res_model">res.branch</field>
+		    <field name="view_mode">list,form</field>
+		    <field name="search_view_id" ref="view_res_branch_filter"/>		
+		</record>
+
+        <menuitem id="master_menu_root" name="Master PDP" sequence="50"/>
+        <menuitem id="res_branch_menu" name="Branches" parent="master_menu_root" action="res_branch_action"/>
+
+        <record id="action_master_job" model="ir.actions.act_window">
+            <field name="name">Job Position</field>
+            <field name="res_model">hr.job</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_master_job"
+              name="Job Position"
+              parent="master_menu_root"
+              action="action_master_job"/>
+
+        <record id="action_master_company" model="ir.actions.act_window">
+            <field name="name">Companies</field>
+            <field name="res_model">res.company</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_master_company"
+              name="Companies"
+              parent="master_menu_root"
+              action="action_master_company"/>
+
+        <record id="action_master_department" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <menuitem id="menu_master_department"
+              name="Departments"
+              parent="master_menu_root"
+              action="action_master_department"/>
+
+        <menuitem id="master_localization_menu" name="Localizations" parent="master_menu_root"/>
+        
+    </data>
+</odoo>

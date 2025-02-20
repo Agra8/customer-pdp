@@ -8,7 +8,6 @@
                 <field name="field_id" required ="1" options="{'no_create': True, 'no_open': True}"/>
                 <field name="field_name" readonly="1"/>
                 <field name="field_type" readonly="1"/>
-                <!-- <field name="field_name"/> -->
             </list>
         </field>
     </record>
