@@ -33,16 +33,22 @@
                 </header>
                 <sheet>
                     <group>
-                            <field name="name"/>
+                        <group>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
                             <field name="title" required="True" readonly="state != 'draft'"/>
                             <field name="valid_date" required="True" readonly="state != 'draft'"/>
                             <field name="expired_date" required="True" readonly="state != 'draft'"/>
                             <field name="required" readonly="state != 'draft'"/>
-                            <field name="body" readonly="state != 'draft'"/>
                             <field name="region" readonly="state != 'draft'"/>
                             <field name="parent_id" string="Parent" readonly="state != 'draft'"/>
+                        </group>
                     </group>
                <notebook>
+                        <page string='Dialog Consent and Agreement'>
+                            <field name="body" widget="html" placeholder="Please Input Your Consent" readonly="state != 'draft'"/> 
+                        </page>
                         <page string='History'>
                             <field name="child_ids" string="History" readonly='True'/>
                         </page>
