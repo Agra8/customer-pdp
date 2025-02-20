@@ -1,23 +1,6 @@
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: odoo:18.0
-    depends_on:
-      - postgre15
-    ports:
-      - "8070:8069"
-    volumes:
-      - odoo18-web-data:/var/lib/odoo
-      - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons
-    environment:
-      - PASSWORD_FILE=/run/secrets/postgresql_password
-    secrets:
-      - postgresql_password
-  postgre15:
-    image: postgres:15
+  db:
+    image: postgres:17
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgresql_password
@@ -29,6 +12,25 @@ services:
       - postgresql_password
     ports:
       - 5430:5432
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: odoo:18
+    depends_on:
+      - db
+    ports:
+      - 8081:8069
+    volumes:
+      - odoo18-web-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      - ./addons:/mnt/extra-addons
+      - ./external-addons:/mnt/extra-addons/custom-addons
+    environment:
+      - PASSWORD_FILE=/run/secrets/postgresql_password
+
+    secrets:
+      - postgresql_password
 volumes:
   odoo18-web-data:
   odoo18-db-data:
