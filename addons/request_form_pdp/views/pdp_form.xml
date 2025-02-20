@@ -47,9 +47,9 @@
                             <button name="action_share_link" string="Share" type="object" class="oe_stat_button">
                                 <img src="/web/static/src/img/icons/share.svg" width="16" height="16"/>
                             </button>
-                            <button name="action_copy_link" string="Copy" type="object" class="oe_stat_button">
+                            <!-- <button name="action_copy_link" string="Copy" type="object" class="oe_stat_button">
                                 <img src="/web/static/src/img/icons/copy.svg" width="16" height="16"/>
-                            </button>
+                            </button> -->
                         </div>
                         <field name="token" invisible="0"/>
                         <field name="qr_code" widget="image"/>

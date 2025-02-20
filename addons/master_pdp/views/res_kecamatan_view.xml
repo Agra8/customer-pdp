@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="view_res_kecamatan_search" model="ir.ui.view">
+            <field name="name">res_kecamatan.search</field>
+            <field name="model">res.kecamatan</field>
+            <field name="arch" type="xml">
+                <search string="Search Bukti Potong">
+                    <field name='name'/>
+                    <field name='city_id'/>    
+                </search>
+            </field>
+        </record>
+
+		<record id="view_res_kecamatan_list" model="ir.ui.view">
+			<field name="name">res.kecamatan.list</field>
+			<field name="model">res.kecamatan</field>
+			<field name="arch" type="xml">
+				<list string="Kecamatan">
+					<field name="code"/>
+				    <field name="name" string="Kecamatan"/>
+				    <field name="city_id"/>
+				    <field name="state_id"/>
+				</list>
+			</field>
+		</record>
+
+		<record id="view_res_kecamatan_form" model="ir.ui.view">
+			<field name="name">res.kecamatan.form</field>
+			<field name="model">res.kecamatan</field>
+			<field name="arch" type="xml">
+				<form string="Kecamatan">
+			    	<group>
+			    		<field name="code"/>
+			    		<field name="name" string="Kecamatan"/>
+			    		<field name="city_id"/>
+			    		<field name="state_id"/>
+				    </group>	
+				</form>
+			</field>
+		</record>
+
+	    <record id="action_res_kec_list" model="ir.actions.act_window">
+            <field name="name">Kecamatan</field>
+            <field name="res_model">res.kecamatan</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="view_res_kecamatan_list"/>
+        </record>
+
+        <!-- <record id="view_res_city_inherit_form" model="ir.ui.view">
+            <field name="name">res.city.inherit.form</field>
+            <field name="model">res.city</field>
+            <field name="inherit_id" ref="localization.view_res_city_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <separator string="Kecamatan" />
+	                <notebook>
+	                	<page string="Kecamatan">
+		                    <field name="kecamatan_ids" nolabel="1" colspan="4">
+		                    	<list string="Kecamatan">
+		                    		<field name="code"/>
+		                    		<field name="name"/>
+		                    	</list>
+		                    </field>
+	               		</page>
+						<page string="Audit Trail">
+							<group>
+								<group>
+									<field name="create_uid" readonly="1"></field>
+									<field name="create_date" readonly="1"></field>
+								</group>
+								<group>							
+									<field name="write_uid" readonly="1"></field>
+									<field name="write_date" readonly="1"></field>
+								</group>
+							</group>
+						</page>	                   		 
+	                </notebook>
+		    	</xpath>
+            </field>
+        </record> -->
+
+   
+		<menuitem id='res_kec_menuitem' parent='master_localization_menu' action='action_res_kec_list' sequence="4"/>	
+
+	</data>
+</odoo>

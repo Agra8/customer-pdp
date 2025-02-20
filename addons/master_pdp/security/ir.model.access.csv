@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_branch_all,res_branch all,model_res_branch,base.group_user,1,1,1,1
+access_res_city_all,res_city all,model_res_city,base.group_user,1,1,1,1
+access_res_kecamatan_all,res_kecamatan all,model_res_kecamatan,base.group_user,1,1,1,1
+access_res_kelurahan_all,res_kelurahan all,model_res_kelurahan,base.group_user,1,1,1,1
