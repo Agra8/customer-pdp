@@ -6,7 +6,6 @@ import hashlib
 import secrets
 from io import BytesIO
 from datetime import datetime
-import pyperclip
 
 
 class RequestPDPForm(models.Model):
@@ -74,7 +73,7 @@ class RequestPDPForm(models.Model):
     def _get_form_url(self):
         # def _get_form_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return f"{base_url}/request_form/{self.id}"
+        return f"{base_url}/request_form/"
 
     def action_generate(self):
         self.write({'status': 'on_customer'})
@@ -94,16 +93,6 @@ class RequestPDPForm(models.Model):
                     'url': wa_url,
                     'target': 'new',
                 }
-
-    # Tambahkan method untuk menyalin link
-    # def action_copy_link(self):
-    #     for record in self:
-    #         if record.link_form:
-    #             pyperclip.copy(record.link_form)
-    def action_copy_link(self):
-        for record in self:
-            if record.link_form:
-                    pyperclip.copy(record.link_form)
 
     def action_generate_link(self):
         self._generate_token()

@@ -1,0 +1,108 @@
+<odoo>
+    <template id="request_form_template" name="Request Form">
+        <t t-call="website.layout">
+            <div class="container mt16">
+                <h2>Form <t t-esc="form_name"/></h2>
+                <!-- Menampilkan pesan error jika ada -->
+                <t t-if="error_message">
+                    <div class="alert alert-danger" role="alert" id="error-message">
+                        <strong>Perhatian!</strong> <t t-esc="error_message"/>
+                    </div>
+                </t>
+                <form id="request_form" action="/request_form/submit" method="post" class="mt-4">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="token" t-att-value="token"/>
+
+                    <div class="row">
+                        <t t-foreach="fields_data" t-as="field">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" t-esc="field['name']"/>
+
+
+                                <t t-if="field['type'] == 'char'">
+                                    <input t-att-type="field['name'] == 'Email' and 'email' or (field['name'] == 'Telepon Mobile' and 'tel' or 'text')" 
+                                        t-att-name="'field_' + str(field['id'])" 
+                                        class="form-control" 
+                                        t-att-required="field['required'] and 'required' or None"
+                                        t-att-pattern="field['name'] == 'Telepon Mobile' and '[0-9]+' or None"
+                                        t-att-placeholder="field['name'] == 'Telepon Mobile' and 'Masukkan nomor HP' or None"
+                                        t-att-oninvalid="field['name'] == 'Telepon Mobile' and 'this.setCustomValidity(\'Inputan nomor harus angka\')' or None"
+                                        t-att-oninput="field['name'] == 'Telepon Mobile' and 'this.setCustomValidity(\'\')' or None"/>
+                                </t>
+
+
+
+                                <t t-elif="field['type'] == 'selection'">
+                                    <select t-att-name="'field_' + str(field['id'])" class="form-control">
+                                        <option value="">-- Pilih --</option>
+                                        <t t-foreach="field['options']" t-as="option">
+                                            <option t-att-value="option" t-esc="option"/>
+                                        </t>
+                                    </select>
+                                </t>
+
+                                <t t-elif="field['type'] == 'many2one'">
+                                    <select t-att-name="'field_' + str(field['id'])" class="form-control">
+                                        <option value="">-- Pilih --</option>
+                                        <t t-foreach="field['options']" t-as="option">
+                                            <option t-att-value="option['id']" t-esc="option['name']"/>
+                                        </t>
+                                    </select>
+                                </t>
+
+                                <t t-elif="field['type'] == 'one2many'">
+                                    <div class="one2many-container">
+                                        <t t-foreach="field['options']" t-as="option">
+                                            <div class="one2many-item">
+                                                <label t-esc="option['name']"/>
+                                                <input type="text" t-att-name="'field_' + str(field['id']) + '_line_' + str(option['id'])" class="form-control"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+
+                                <t t-elif="field['type'] == 'many2many'">
+                                    <select multiple="multiple" t-att-name="'field_' + str(field['id'])" class="form-control select2">
+                                        <t t-foreach="field['options']" t-as="option">
+                                            <option t-att-value="option['id']" t-esc="option['name']"/>
+                                        </t>
+                                    </select>
+                                </t>
+
+                                <t t-elif="field['type'] == 'boolean'">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" t-att-name="'field_' + str(field['id'])"/>
+                                        <label class="form-check-label" t-esc="field['name']"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="thanks_template" name="Terima Kasih">
+        <t t-call="website.layout">
+            <div class="container mt16">
+                <h2>Terima Kasih!</h2>
+                <p>Data Anda telah tersimpan.</p>
+            </div>
+        </t>
+    </template>
+
+    <template id="invalid_token_template" name="Invalid Token">
+        <t t-call="website.layout">
+            <div class="container mt16">
+                <t t-if="error_message">
+                    <div class="alert alert-danger">
+                        <t t-esc="error_message"/>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>
