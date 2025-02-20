@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_pdp_form_user,pdp.request.form access,model_pdp_request_form,base.group_user,1,1,1,1
-access_pdp_activities_form_user,pdp.activities.form access,model_pdp_activities_form,base.group_user,1,1,1,1
-access_pdp_form_line_user,pdp.activities.form.line access,model_pdp_activities_form_line,base.group_user,1,1,1,1
+access_pdp_activity_form_user,pdp.activity.form access,model_pdp_activity_form,base.group_user,1,1,1,1
+access_pdp_form_line_user,pdp.activity.form.line access,model_pdp_activity_form_line,base.group_user,1,1,1,1
 access_pdp_master_fields_user,pdp.master.fields access,model_pdp_master_fields,base.group_user,1,1,1,1

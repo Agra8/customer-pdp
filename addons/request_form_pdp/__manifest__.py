@@ -18,16 +18,16 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','website'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         'data/sequence.xml',
-        'views/templates.xml',
-        'views/activites_form_pdp.xml',
+        'views/pdp_activity_form_pdp.xml',
         'views/pdp_master_fields.xml',
-        'views/pdp_form.xml',
+        'views/pdp_form_request_view.xml',
+        'views/request_form_templates.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

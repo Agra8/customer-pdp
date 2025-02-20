@@ -1,12 +1,13 @@
 from odoo import models, fields, api
 
-class ActivitiesForm(models.Model):
-    _name = 'pdp.activities.form'
-    _description = 'Activites Form'
+class activityForm(models.Model):
+    _name = 'pdp.activity.form'
+    _description = 'Activity Form'
 
     name = fields.Char('name')
     company_id = fields.Many2one('res.company', string='company')
-    activities_form_line_ids = fields.One2many('pdp.activities.form.line', 'activities_form_id', string='activities_form_line')
+    activity_form_line = fields.One2many('pdp.activity.form.line', 'activity_form_id', string='activity_form_line')
+    consent_agreement_id = fields.Many2one('pdp.consent', string='Consent Agreement')
     status = fields.Selection([
         ('draft', 'Draft'),
         ('on_customer', 'On Customer'),
@@ -23,19 +24,22 @@ class ActivitiesForm(models.Model):
     def action_confirm(self):
         self.write({'status': 'completed'})
   
-class ActivitiesFormLine(models.Model):
-    _name = 'pdp.activities.form.line'
-    _description = 'Activities Form Line'
+class activityFormLine(models.Model):
+    _name = 'pdp.activity.form.line'
+    _description = 'activity Form Line'
 
-    activities_form_id = fields.Many2one('pdp.activities.form', string='Activities Form')
+    activity_form_id = fields.Many2one('pdp.activity.form', string='Activity Form')
 
     field_id = fields.Many2one('pdp.master.fields', string='Field')
     field_name = fields.Char(related='field_id.field_name', string='Field Name')
     field_type = fields.Selection(related='field_id.field_type', string='Field Type')
     field_option = fields.Char(related='field_id.field_option', string='Field Option')
+    required = fields.Boolean(string='Required')
+    min = fields.Integer(string='Min')
+    max = fields.Integer(string='Max')
 
     used_field_ids = fields.Many2many('pdp.master.fields', compute='_compute_used_field_ids', store=False)
     @api.depends('field_id')
     def _compute_used_field_ids(self):
         for rec in self:
-            rec.used_field_ids = [(6, 0, rec.activities_form_id.activities_form_line_ids.mapped('field_id').ids)]
+            rec.used_field_ids = [(6, 0, rec.activity_form_id.activity_form_line.mapped('field_id').ids)]
