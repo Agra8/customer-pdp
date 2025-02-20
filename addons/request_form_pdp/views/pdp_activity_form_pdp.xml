@@ -31,20 +31,20 @@
                     </header>
                 <sheet>
                     <group>
-                        <field name="name" required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                        <field name="company_id" required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                        <field name="consent_agreement_id" required="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                        <field name="name" required ="1" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                        <field name="company_id" required ="1" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                        <field name="consent_agreement_id" required="1" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
                     </group>
                
                     <notebook>
                         <page string="activity Form Details">
                             <field name="activity_form_line">
                                 <list editable="bottom">
-                                    <field name="field_id" options="{'no_create': True, 'no_open': True}" domain='[("id", "not in", used_field_ids)]' required ="1" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                                    <field name="field_id" options="{'no_create': True, 'no_open': True}" domain='[("id", "not in", used_field_ids)]' required ="1" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
                                     <field name="field_type" readonly="1"/>
-                                    <field name="required" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                                    <field name="min" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                                    <field name="max" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                                    <field name="required" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                                    <field name="min" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                                    <field name="max" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
                                 </list>
                             </field>
                         </page>

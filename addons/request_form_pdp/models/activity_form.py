@@ -35,8 +35,8 @@ class activityFormLine(models.Model):
     field_type = fields.Selection(related='field_id.field_type', string='Field Type')
     field_option = fields.Char(related='field_id.field_option', string='Field Option')
     required = fields.Boolean(string='Required')
-    min = fields.Integer(string='Min')
-    max = fields.Integer(string='Max')
+    min_char = fields.Integer(string='Min')
+    max_char = fields.Integer(string='Max')
 
     used_field_ids = fields.Many2many('pdp.master.fields', compute='_compute_used_field_ids', store=False)
     @api.depends('field_id')

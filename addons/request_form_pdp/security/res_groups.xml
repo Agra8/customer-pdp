@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- CATEGORY -->
+        <record id="pdp_request_form" model="ir.module.category">
+            <field name="name">PDP Request Form</field>
+        </record>
+
+        <!-- GROUPS pdp request form -->
+
+        <!-- Read Group -->
+        <record id="group_pdp_request_form_read" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Request Form Read</field>
+        </record>
+
+        <!-- Update Group -->
+        <record id="group_pdp_request_form_update" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Request Form Update</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_request_form_read'))]"/>
+        </record>
+
+        <!-- Delete Group -->
+        <record id="group_pdp_request_form_delete" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Request Form Delete</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_request_form_read'))]"/>
+        </record>
+
+
+        <!-- GROUPS pdp activity form -->
+        <record id="group_pdp_activity_form_read" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Read</field>
+        </record>
+
+        <record id="group_pdp_activity_form_update" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Update</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_activity_form_read'))]"/>
+        </record>
+
+        <record id="group_pdp_activity_form_delete" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Delete</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_activity_form_read'))]"/>
+        </record>
+
+        <!-- GROUPS pdp form line -->
+        <record id="group_pdp_activity_form_line_read" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Line Read</field>
+        </record>
+
+        <record id="group_pdp_activity_form_line_update" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Line Update</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_activity_form_line_read'))]"/>
+        </record>
+
+        <record id="group_pdp_activity_form_line_delete" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Activity Form Line Delete</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_activity_form_line_read'))]"/>
+        </record>
+
+        <!-- GROUPS pdp master fields -->
+        <record id="group_pdp_master_fields_read" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Master Fields Read</field>
+        </record>
+
+        <record id="group_pdp_master_fields_update" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Master Fields Update</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_master_fields_read'))]"/>
+        </record>
+
+        <record id="group_pdp_master_fields_delete" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Master Fields Delete</field>
+            <field name="implied_ids" eval="[(4, ref('group_pdp_master_fields_read'))]"/>
+        </record>
+
+        <!-- Admin Group (Full Access) -->
+        <record id="group_pdp_form_admin" model="res.groups">
+            <field name="category_id" ref="pdp_request_form"/>
+            <field name="name">PDP Form Admin</field>
+            <field name="implied_ids" eval="[
+                (4, ref('group_pdp_request_form_read')),
+                (4, ref('group_pdp_request_form_update')),
+                (4, ref('group_pdp_request_form_delete')),
+                (4, ref('group_pdp_activity_form_read')),
+                (4, ref('group_pdp_activity_form_update')),
+                (4, ref('group_pdp_activity_form_delete')),
+                (4, ref('group_pdp_activity_form_line_read')),
+                (4, ref('group_pdp_activity_form_line_update')),
+                (4, ref('group_pdp_activity_form_line_delete')),
+                (4, ref('group_pdp_master_fields_read')),
+                (4, ref('group_pdp_master_fields_update')),
+                (4, ref('group_pdp_master_fields_delete')),
+
+            ]"/>
+        </record>
+
+    </data>
+
+</odoo>
+
