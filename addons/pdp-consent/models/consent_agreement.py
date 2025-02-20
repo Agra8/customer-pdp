@@ -12,7 +12,7 @@ class PdpConsent(models.Model):
         tracking=True
     )
     title = fields.Char(string='Title of Consent')
-    body = fields.Html(string='Dialog Consent & Agreement')
+    body = fields.Html(string='Dialog Consent & Agreement', sanitize=False)
     expired_date = fields.Date(string='Expired Date')
     valid_date = fields.Date(string='Valid Date')
     activity_form = fields.Many2one(string='Activities form')

@@ -16,9 +16,10 @@
     'installable': True,
     'application': True,
     'data': [
+        'security/res_groups.xml',
         'security/ir.model.access.csv',
         'views/consent_agreement_views.xml',
         'data/pdp_consent_sequence.xml',
-    ],
+    ]
     # only loaded in demonstration mode
 }
