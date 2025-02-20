@@ -33,25 +33,15 @@
                     </header>
                 <sheet>
                     <group>
-                            <field name="name" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="company_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="activity_form_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="valid_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="expired_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="limit_usage" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="email_to" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="name" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="company_id" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="activity_form_id" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="valid_date" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="expired_date" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="limit_usage" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="email_to" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
                     </group>
                     <group>
-<<<<<<< HEAD:addons/request_form_pdp/views/pdp_form.xml
-                        <field name="link_form" readonly="1"/>
-                        <div class="oe_button_box" name="button_box">
-                            <button name="action_share_link" string="Share" type="object" class="oe_stat_button">
-                                <img src="/web/static/src/img/icons/share.svg" width="16" height="16"/>
-                            </button>
-                            <!-- <button name="action_copy_link" string="Copy" type="object" class="oe_stat_button">
-                                <img src="/web/static/src/img/icons/copy.svg" width="16" height="16"/>
-                            </button> -->
-=======
                         <div class="o_row">
                             <div class="o_col">
                                 <label for="link_form">Link Form:</label> <field name="link_form" readonly="1" widget="CopyClipboardChar" class="small-field" 
@@ -59,7 +49,6 @@
                                 <button name="action_share_link" string="Share" type="object" class="btn btn-primary" 
                                     style="display: inline-block; margin-left: 10px;"/>
                             </div>
->>>>>>> 7d32f28f9387f758f863690ce0aa6b7d338f5aab:addons/request_form_pdp/views/pdp_form_request_view.xml
                         </div>
                         <field name="token" invisible="0"/>
                         <field name="qr_code" widget="image"/>

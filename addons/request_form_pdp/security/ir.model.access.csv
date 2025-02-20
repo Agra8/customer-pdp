@@ -1,5 +1,13 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_pdp_form_user,pdp.request.form access,model_pdp_request_form,base.group_user,1,1,1,1
-access_pdp_activity_form_user,pdp.activity.form access,model_pdp_activity_form,base.group_user,1,1,1,1
-access_pdp_form_line_user,pdp.activity.form.line access,model_pdp_activity_form_line,base.group_user,1,1,1,1
-access_pdp_master_fields_user,pdp.master.fields access,model_pdp_master_fields,base.group_user,1,1,1,1
+access_pdp_request_form_read,pdp.request.form read,model_pdp_request_form,group_pdp_request_form_read,1,0,0,0
+access_pdp_request_form_update,pdp.request.form update,model_pdp_request_form,group_pdp_request_form_update,0,1,1,0
+access_pdp_request_form_delete,pdp.request.form delete,model_pdp_request_form,group_pdp_request_form_delete,0,0,0,1
+access_pdp_activity_form_read,pdp.activity.form read,model_pdp_activity_form,group_pdp_activity_form_read,1,0,0,0
+access_pdp_activity_form_update,pdp.activity.form update,model_pdp_activity_form,group_pdp_activity_form_update,0,1,1,0
+access_pdp_activity_form_delete,pdp.activity.form delete,model_pdp_activity_form,group_pdp_activity_form_delete,0,0,0,1
+access_pdp_activity_form_line_read,pdp.activity.form.line read,model_pdp_activity_form_line,group_pdp_activity_form_line_read,1,0,0,0
+access_pdp_activity_form_line_update,pdp.activity.form.line update,model_pdp_activity_form_line,group_pdp_activity_form_line_update,0,1,1,0
+access_pdp_activity_form_line_delete,pdp.activity.form.line delete,model_pdp_activity_form_line,group_pdp_activity_form_line_delete,0,0,0,1
+access_pdp_master_fields_read,pdp.master.fields read,model_pdp_master_fields,group_pdp_master_fields_read,1,0,0,0
+access_pdp_master_fields_update,pdp.master.fields update,model_pdp_master_fields,group_pdp_master_fields_update,0,1,1,0
+access_pdp_master_fields_delete,pdp.master.fields delete,model_pdp_master_fields,group_pdp_master_fields_delete,0,0,0,1

@@ -6,10 +6,6 @@ import hashlib
 import secrets
 from io import BytesIO
 from datetime import datetime
-<<<<<<< HEAD:addons/request_form_pdp/models/request_form_pdp.py
-# import pyperclip
-=======
->>>>>>> 7d32f28f9387f758f863690ce0aa6b7d338f5aab:addons/request_form_pdp/models/request_pdp_form.py
 
 
 class RequestPDPForm(models.Model):
@@ -98,19 +94,6 @@ class RequestPDPForm(models.Model):
                     'target': 'new',
                 }
 
-<<<<<<< HEAD:addons/request_form_pdp/models/request_form_pdp.py
-    # Tambahkan method untuk menyalin link
-    # def action_copy_link(self):
-    #     for record in self:
-    #         if record.link_form:
-    #             pyperclip.copy(record.link_form)
-    # def action_copy_link(self):
-    #     for record in self:
-    #         if record.link_form:
-    #                 pyperclip.copy(record.link_form)
-
-=======
->>>>>>> 7d32f28f9387f758f863690ce0aa6b7d338f5aab:addons/request_form_pdp/models/request_pdp_form.py
     def action_generate_link(self):
         self._generate_token()
         self._generate_link()
