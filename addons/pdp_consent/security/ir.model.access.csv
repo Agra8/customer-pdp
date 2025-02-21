@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_pdp_consent_read,pdp.consent access,model_pdp_consent,group_pdp_consent_read,1,0,0,0
+access_pdp_consent_update,pdp.consent access,model_pdp_consent,group_pdp_consent_update,0,1,1,0
+access_pdp_consent_delete,pdp.consent access,model_pdp_consent,group_pdp_consent_delete,0,0,0,1

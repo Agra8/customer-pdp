@@ -18,10 +18,11 @@ Long description of module's purpose
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','website'],
+    'depends': ['base','website','pdp_consent'],
 
     # always loaded
     'data': [
+        'security/res_groups.xml',
         'security/ir.model.access.csv',
         'data/sequence.xml',
         'views/pdp_activity_form_pdp.xml',

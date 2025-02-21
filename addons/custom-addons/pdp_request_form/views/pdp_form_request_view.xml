@@ -33,13 +33,13 @@
                     </header>
                 <sheet>
                     <group>
-                            <field name="name" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="company_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="activity_form_id" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="valid_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="expired_date" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="limit_usage" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
-                            <field name="email_to" modifiers="{'invisible': [('status', '!=', 'draft')]}"/>
+                            <field name="name" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="company_id" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="activity_form_id" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="valid_date" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="expired_date" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="limit_usage" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
+                            <field name="email_to" modifiers="{'readonly': [('status', '!=', 'draft')]}"/>
                     </group>
                     <group>
                         <div class="o_row">

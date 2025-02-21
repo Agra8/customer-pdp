@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="pdp_consent_list" model="ir.ui.view">
+        <field name="name">pdp.consent.list</field>
+        <field name="model">pdp.consent</field>
+        <field name="arch" type="xml">
+            <list string="PDP Forms">
+                <field name="name"/>
+                <field name="title" string="Title"/>
+                <field name="expired_date"/>
+                <field name="valid_date"/>
+                <field name="state" string="status" widget="badge"
+                        decoration-info="state == 'draft'"
+                       decoration-warning="state == 'waiting'"
+                       decoration-success="state == 'approve'"
+                       decoration-primary="state == 'done'"
+                       decoration-danger="state == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="pdp_consent_form" model="ir.ui.view">
+        <field name="name">pdp.consent.form</field>
+        <field name="model">pdp.consent</field>
+        <field name="arch" type="xml">
+            <form string="PDP Form">
+                <header>
+                    <button name="button_confirm" class="oe_highlight" string="Confirm" type="object" invisible="state != 'draft'"/>
+                    <button name="button_approve" class="oe_highlight" string="To Approve" type="object" invisible="state in ['draft', 'approve', 'done', 'cancel']"/>
+                    <button name="button_done" class="btn-secondary" string="Mark As Done" type="object" invisible="state in ['draft', 'waiting', 'done']"/>
+                    <button name="button_cancel" class="btn-danger" string="Cancel" type="object" invisible="state in ['draft', 'cancel']"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="title" required="True" readonly="state != 'draft'"/>
+                            <field name="valid_date" required="True" readonly="state != 'draft'"/>
+                            <field name="expired_date" required="True" readonly="state != 'draft'"/>
+                            <field name="required" readonly="state != 'draft'"/>
+                            <field name="region" readonly="state != 'draft'"/>
+                            <field name="parent_id" string="Parent" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+               <notebook>
+                        <page string='Dialog Consent and Agreement'>
+                            <field name="body" widget="html" placeholder="Please Input Your Consent" readonly="state != 'draft'"/> 
+                        </page>
+                        <page string='History'>
+                            <field name="child_ids" string="History" readonly='True'/>
+                        </page>
+                </notebook>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pdp_consent_form" model="ir.actions.act_window">
+        <field name="name">PDP Consent Form</field>
+        <field name="res_model">pdp.consent</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('parent_id', '=', False)]</field>
+    </record>
+
+    <menuitem id="menu_pdp_consent_root" name="PDP Consent Form" sequence="10"/>
+    <menuitem id="menu_pdp_form" name="Consent Form" parent="menu_pdp_consent_root" action="action_pdp_consent_form"/>
+
+</odoo>
