@@ -24,8 +24,9 @@ services:
     volumes:
       - odoo18-web-data:/var/lib/odoo
       - ./config:/etc/odoo
-      - ./addons:/mnt/extra-addons
-      - ./external-addons:/mnt/extra-addons/custom-addons
+      - ./addons/custom-addons:/mnt/extra-addons/custom-addons
+      - ./addons/external-addons:/mnt/extra-addons/external-addons
+      - ./addons/core-addons:/mnt/extra-addons/core-addons
     environment:
       - PASSWORD_FILE=/run/secrets/postgresql_password
 
