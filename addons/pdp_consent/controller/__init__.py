@@ -1,0 +1,1 @@
+from . import consent_agreement_template

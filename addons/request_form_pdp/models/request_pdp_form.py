@@ -73,7 +73,7 @@ class RequestPDPForm(models.Model):
     def _get_form_url(self):
         # def _get_form_url(self):
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-        return f"{base_url}/request_form/"
+        return f"{base_url}/agreement/"
 
     def action_generate(self):
         self.write({'status': 'on_customer'})
