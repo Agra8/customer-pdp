@@ -65,7 +65,8 @@
         <field name="domain">[('parent_id', '=', False)]</field>
     </record>
 
-    <menuitem id="menu_pdp_consent_root" name="PDP Consent Form" sequence="10"/>
-    <menuitem id="menu_pdp_form" name="Consent Form" parent="menu_pdp_consent_root" action="action_pdp_consent_form"/>
+    <menuitem id="menu_pdp_consent_root" name="PDP Consent" sequence="10"/>
+    <menuitem id="pdp_consent_dropdown" name="Menu" parent='menu_pdp_consent_root'/>
+    <menuitem id="menu_pdp_form" name="Consent Form" parent="pdp_consent_dropdown" action="action_pdp_consent_form" sequence="1"/>
 
 </odoo>

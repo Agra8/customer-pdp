@@ -30,6 +30,11 @@ class PdpConsent(models.Model):
         ('done', 'Done'),
         ('cancel', 'Cancelled'),
     ], string='Status', default='draft', tracking=True, copy="false")
+    attach_file = fields.Binary(string='insert')
+    is_agree = fields.Boolean(string='agree?')
+    is_agree = fields.Boolean(string="Agreed to Terms", default=False)
+    is_disagree = fields.Boolean(string="Disagreed to Terms", default=False)
+    user_id = fields.Many2one('res.users', "User", required=True)
 
     @api.model_create_multi
     def create(self, vals_list):

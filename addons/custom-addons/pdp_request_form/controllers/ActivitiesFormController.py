@@ -47,8 +47,8 @@ class ActivitiesFormController(http.Controller):
         Validasi data pengguna sebelum disimpan ke res.partner.
         """
         field_mapping = {
-            'Nama': 'name',
-            'Telepon Mobile': 'phone',
+            'Name': 'name',
+            'Mobile': 'phone',
             'Email': 'email',
             'Jalan': 'street',
             'Bahasa': 'lang',
@@ -57,7 +57,7 @@ class ActivitiesFormController(http.Controller):
             'Jabatan Kerja': 'function',
         }
 
-        required_fields = ['Nama', 'Email', 'Telepon Mobile']
+        required_fields = ['Name', 'Email', 'Mobile']
         partner_vals = {'active': True}
         errors = []
 
@@ -76,7 +76,7 @@ class ActivitiesFormController(http.Controller):
                     errors.append("Format email tidak valid.")
                     # _logger.warning("Email tidak valid: %s", field_value)
 
-            if field_name == 'Telepon Mobile' and field_value:
+            if field_name == 'Mobile' and field_value:
                 if not field_value.isdigit():
                     errors.append("Nomor telepon hanya boleh berisi angka.")
                     # _logger.warning("Nomor telepon tidak valid: %s", field_value)
@@ -93,18 +93,17 @@ class ActivitiesFormController(http.Controller):
         
         valid, result = self.validate_request_form(token)
         if not valid:
-            # Kirim kesalahan ke template untuk ditampilkan dengan pop-up
-            return request.render('request_form_pdp.invalid_token_template', {'error_message': result})
-        
+            return request.render('pdp_request_form.invalid_token_template', {'error_message': result})
+
         request_form = result
         activity_form_id = request_form.activity_form_id
-      
+
         fields_data = [
             {
                 'id': line.field_id.id,
                 'name': line.field_name.strip(),
                 'type': line.field_type,
-                'required': line.field_name.strip() in ['Nama', 'Email', 'Telepon Mobile'],
+                'required': line.field_name.strip() in ['Name', 'Email', 'Mobile'],
                 'options': (
                     line.field_option.split(',') if line.field_type == 'selection' else
                     [{'id': rec.id, 'name': rec.name} for rec in request.env[line.field_id.relation].sudo().search([])]
@@ -114,16 +113,11 @@ class ActivitiesFormController(http.Controller):
             for line in activity_form_id.activity_form_line
         ]
 
-        # _logger.info("fields_data  fields_data %s", fields_data)
-
-
-        return request.render('request_form_pdp.request_form_template', {
+        return request.render('pdp_request_form.request_form_template', {
             'token': token,
             'fields_data': fields_data,
             'form_name': activity_form_id.name
         })
-
-
 
     @http.route(['/request_form/submit'], type='http', auth="public", website=True, methods=['POST'])
     def request_form_submit(self, **post):
@@ -132,23 +126,23 @@ class ActivitiesFormController(http.Controller):
         token = post.get('token', '').strip()
         valid, result = self.validate_request_form(token)
         if not valid:
-            return request.render('request_form_pdp.request_form_template', {'error_message': result})
+            return request.render('pdp_request_form.request_form_template', {'error_message': result})
         
         request_form = result
         activity_form_id = request_form.activity_form_id
 
         if not activity_form_id:
-            return request.render('request_form_pdp.request_form_template', {'error_message': 'Formulir tidak ditemukan.'})
+            return request.render('pdp_request_form.request_form_template', {'error_message': 'Formulir tidak ditemukan.'})
         
         partner_vals, errors = self.validate_partner_data(post, activity_form_id)
         if errors:
-            return request.render('request_form_pdp.request_form_template', {'error_message': "<br/>".join(errors)})
+            return request.render('pdp_request_form.request_form_template', {'error_message': "<br/>".join(errors)})
 
         try:
             new_partner = request.env['res.partner'].sudo().create(partner_vals)
             _logger.info("Berhasil membuat res.partner dengan ID: %s", new_partner.id)
             request_form.sudo().write({'limit_usage': request_form.limit_usage - 1})
-            return request.render('request_form_pdp.thanks_template')
+            return request.render('pdp_request_form.thanks_template')
         except Exception as e:
-            # _logger.error("Gagal menyimpan data ke res.partner: %s", str(e))
-            return request.render('request_form_pdp.request_form_template', {'error_message': 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.'})
+            _logger.error("Gagal menyimpan data ke res.partner: %s", str(e))
+            return request.render('pdp_request_form.request_form_template', {'error_message': 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.'})
